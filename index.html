@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PuzzleForge</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+  header {
+    padding: 1rem;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  #puzzleContainer {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-size), 1fr);
+    grid-template-rows: repeat(var(--grid-size), 1fr);
+    width: 90vmin;
+    height: 90vmin;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #ccc;
+  }
+  #puzzleContainer .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    font-size: calc(2.5vmin);
+    user-select: none;
+    line-height: 1;
+  }
+  #controls {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  #controls select,
+  #controls button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+  }
+  #wordList {
+    margin-top: 1rem;
+    max-width: 90vmin;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  #wordList span {
+    padding: 0.25rem 0.5rem;
+    background: #eee;
+    border-radius: 3px;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+    #controls select,
+    #controls button {
+      font-size: 0.9rem;
+    }
+    #wordList span {
+      font-size: 0.8rem;
+    }
+    #puzzleContainer .cell {
+      font-size: calc(3vmin);
+      border-width: 0.5px;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>PuzzleForge</h1>
+  </header>
+  <div id="controls">
+    <select id="categorySelect">
+      <option value="trees">Trees & Plants</option>
+      <option value="birds">Birds</option>
+      <option value="insects">Insects</option>
+      <option value="figures">Famous Historical Figures</option>
+      <option value="unesco">UNESCO World Heritage Sites</option>
+    </select>
+    <select id="difficultySelect">
+      <option value="easy">Easy (10x10)</option>
+      <option value="medium">Medium (15x15)</option>
+      <option value="hard">Hard (20x20)</option>
+    </select>
+    <button id="newGameBtn">New Game</button>
+  </div>
+  <div id="puzzleContainer"></div>
+  <div id="wordList"></div>
+  <script>
+    const puzzleContainer = document.getElementById('puzzleContainer');
+    const difficultySelect = document.getElementById('difficultySelect');
+    function createGrid(size) {
+      puzzleContainer.innerHTML = '';
+      puzzleContainer.style.setProperty('--grid-size', size);
+      for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        puzzleContainer.appendChild(cell);
+      }
+    }
+    difficultySelect.addEventListener('change', () => {
+      const value = difficultySelect.value;
+      if (value === 'easy') createGrid(10);
+      if (value === 'medium') createGrid(15);
+      if (value === 'hard') createGrid(20);
+    });
+    createGrid(10);
+  </script>
+</body>
+</html>
